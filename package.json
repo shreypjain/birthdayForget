@@ -1,0 +1,26 @@
+{
+  "name": "birthdayForget",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "osa-imessage": "^2.4.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"node index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shreypjain/birthdayForget.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shreypjain/birthdayForget/issues"
+  },
+  "homepage": "https://github.com/shreypjain/birthdayForget#readme"
+}

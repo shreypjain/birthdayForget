@@ -1,8 +1,9 @@
 const imessage = require("osa-imessage")
 const express = require("express")
 
-app = express()
+//app = express()
 
-imessage.handleForName('Shashank').then(handle => {
-    imessage.send(handle,'This was an automated message sent by Nodejs')
-})
+imessage.listen()
+// imessage.listen().on('message', (msg) => {
+//     if (!msg.fromMe) console.log(`${msg}`)
+// })
