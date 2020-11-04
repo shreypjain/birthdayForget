@@ -1,9 +1,11 @@
 const Friend = require("../models/friend")
+const imessage = require("osa-imessage")
 
 //GET req
 module.exports.getBirthdays = async (req,res) => {
     try {
-    const users = await user.find({"birthday":200000})
+    const mins = Date.now() / 60000
+    const users = await Friend.find({"birthday":200000})
     users.forEach(element => {
         console.log(element)
     })
@@ -15,7 +17,7 @@ module.exports.getBirthdays = async (req,res) => {
     } catch (err) {
         return res.status(500).json({
             'success':false,
-            'message':err
+            'message':err.message
         })
     }
 }

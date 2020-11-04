@@ -18,9 +18,9 @@ mongoose
   })
   .then(() => {
     console.log("Connected to database");
-    app.use('/shashank', router)
+    app.use('/', router)
     app.listen(port, () => {
-      console.log(`server running on port: http://localhost:${port}/api`);
+      console.log(`server running on port: http://localhost:${port}/`);
     });
   })
   .catch((err) => {

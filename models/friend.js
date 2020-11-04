@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const uniqueValidator = require('mongoose-unique-validator')
 
 const friendSchema = mongoose.Schema({
     firstName : {
@@ -8,10 +7,15 @@ const friendSchema = mongoose.Schema({
     },
     lastName : {
         type: String,
-        required: true
+        required: false
     },
     birthday : {
-        type: Number
+        type: Number,
+        required: true
+    },
+    age : {
+        type: Number,
+        required: [true, 'must include age']
     }
 })
 module.exports = mongoose.model("Friend", friendSchema)
