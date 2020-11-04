@@ -4,15 +4,14 @@ import pandas
 df = pandas.read_csv('birthdays.csv')
 birthdays = []
 for i in df.itertuples():
-    for j in str(i[2]):
-        month = int(j[0:1])
-        day = int(j[3:4])
-        year = int(j[6:7])
-        print(month,day,year)
+    month = i[3][0:2]
+    day = i[3][3:5]
+    year = i[3][6:8]
+    print(f'20{year}')
     birthdays.append({
         'firstName':i[0],
         'lastName':i[1],
         'birthday':i[2],
         'age':i[3]
     })
-print(birthdays)
+# print(birthdays)
