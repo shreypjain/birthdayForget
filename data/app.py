@@ -1,6 +1,9 @@
 from pymongo import MongoClient
 import pandas
 from datetime import datetime
+import os
+
+URL = os.getenv('DB_CREDS')
 
 df = pandas.read_csv('birthdays.csv')
 birthdays = []
@@ -19,7 +22,8 @@ for i in df.itertuples():
         'birthday':int(bday),
         'age':int(i[4])
     })
-client = MongoClient("insert the url here")
+
+client = MongoClient(URL)
 db = client['birthdays']
 col = db['friends']
-col.bulk_write(birthdays)
+col.insert_many(birthdays)
