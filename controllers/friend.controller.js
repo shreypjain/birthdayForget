@@ -22,7 +22,7 @@ module.exports.getBirthdays = async (req,res) => {
     }
 }
 
-//Callback for all
+// Callback for all
 module.exports.callback = (req,res) => {
     return res.status(400).json({
         'success':false,
