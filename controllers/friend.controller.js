@@ -1,7 +1,7 @@
 const Friend = require("../models/friend")
 const imessage = require("osa-imessage")
 
-//GET req
+// GET req
 module.exports.getBirthdays = async (req,res) => {
     try {
     const mins = Date.now() / 60000
