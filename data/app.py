@@ -15,10 +15,10 @@ for i in df.itertuples():
     bday = datetime.timestamp(datetime(year,month,day)) * 1000
     print(f'birthday: {49 - (bday / 31536000000)}')
     birthdays.append({
-        'firstName':i[0],
-        'lastName':i[1],
-        'birthday':i[2],
-        'age':i[3]
+        'firstName':i[1],
+        'lastName':i[2],
+        'birthday':i[3],
+        'age':i[4]
     })
-#print(datetime.timestamp(datetime(2020,11, 4)) * 1000)
+print(datetime.timestamp(datetime(2020,11, 4)) * 1000)
 
