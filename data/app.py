@@ -4,6 +4,7 @@ from datetime import datetime
 import os
 
 URL = os.getenv('DB_CREDS')
+print(URL)
 
 df = pandas.read_csv('birthdays.csv')
 birthdays = []
@@ -23,7 +24,7 @@ for i in df.itertuples():
         'age':int(i[4])
     })
 
-client = MongoClient(URL)
-db = client['birthdays']
-col = db['friends']
-col.insert_many(birthdays)
+# client = MongoClient(URL)
+# db = client['birthday']
+# col = db['friends']
+# col.insert_many(birthdays)
