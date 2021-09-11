@@ -1,11 +1,11 @@
 const Client = require("mongodb").MongoClient
 const Cron = require('cron').CronJob
-const schedule = require('node-schedule')
+const express = require('express')
+const http = require('http')
 require('dotenv').config();
 const twilio = require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
 
-
-schedule.scheduleJob('0 0 * * *', () => {
+const getBirthdays = (req, res) => {
   Client.connect(process.env.DB_CREDS, {
       useUnifiedTopology: true
     })
@@ -27,11 +27,31 @@ schedule.scheduleJob('0 0 * * *', () => {
             }).then(message => {
               console.log(message.status)
             }).catch(err => console.log(err))
+            twilio.messages.create({
+              body: `BIRTHDAY ALERT: today (${new Date(Date.now()).toDateString()}) is ${elem["firstName"]}  ${elem["lastName"]}'s birthday.`,
+              from: "+16106242053",
+              to: "+18482521431"
+            }).then(message => {
+              console.log(message.status)
+            }).catch(err => console.log(err))
             bday.push(elem)
           }
         })
+        return res.status(200).json({
+          success: true,
+        })
       } catch (err) {
         console.log(err)
+        return res.status(500).json({
+          success: false,
+        })
       }
     })
-})
+}
+
+const app = express()
+
+app.get('/', getBirthdays)
+
+server = http.createServer(app)
+server.listen(process.env.PORT)

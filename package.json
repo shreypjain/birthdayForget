@@ -20,7 +20,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js",
-    "st": "nodemon index",
     "birthday": "nodemon birthday.js"
   },
   "repository": {
