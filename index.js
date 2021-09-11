@@ -21,14 +21,14 @@ const getBirthdays = (req, res) => {
           if (date - Math.floor(date) > 0 && date - Math.floor(date) < 0.0027) {
             console.log(`today is ${elem["firstName"]}'s birthday`)
             twilio.messages.create({
-              body: `BIRTHDAY ALERT: today (${new Date(Date.now()).toDateString()}) is ${elem["firstName"]}  ${elem["lastName"]}'s birthday.`,
+              body: `BIRTHDAY ALERT: today (${new Date(Date.now()).toDateString()}) is ${elem["firstName"]} ${elem["lastName"]}'s birthday.`,
               from: "+16106242053",
               to: "+17327998071"
             }).then(message => {
               console.log(message.status)
             }).catch(err => console.log(err))
             twilio.messages.create({
-              body: `BIRTHDAY ALERT: today (${new Date(Date.now()).toDateString()}) is ${elem["firstName"]}  ${elem["lastName"]}'s birthday.`,
+              body: `BIRTHDAY ALERT: today (${new Date(Date.now()).toDateString()}) is ${elem["firstName"]} ${elem["lastName"]}'s birthday.`,
               from: "+16106242053",
               to: "+18482521431"
             }).then(message => {
