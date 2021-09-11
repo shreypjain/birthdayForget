@@ -1,50 +1,37 @@
-const express = require("express")
-const imessage = require("osa-imessage")
 const Client = require("mongodb").MongoClient
-require("dotenv").config()
+const Cron = require('cron').CronJob
+const schedule = require('node-schedule')
+require('dotenv').config();
+const twilio = require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
 
 
-port = process.env.PORT || 8000
-app = express()
-
-app.get("/api", (req,res) => {
-    res.send('Hello World')
-})
-
-Client.connect(process.env.DB_CREDS, { useUnifiedTopology: true})
-  .then(client => {
-    console.log("Connected to the database")
-    app.set('json spaces',2)
-    app.get('/', async (req,res) => {
+schedule.scheduleJob('0 0 * * *', () => {
+  Client.connect(process.env.DB_CREDS, {
+      useUnifiedTopology: true
+    })
+    .then(async client => {
+      console.log("Connected to the database")
       try {
-      const mins = Date.now() / 60000
-      col = client.db('birthday').collection('friends')
-      users = await col.find().toArray()
-      bday = []
-      users.forEach(elem => {
-        date = (Date.now() - elem["birthday"]) / 31536000000
-        if(date > 0 && date < 86400000) {
-          imessage.handleForName(elem["firstName"]).then(handle => {
-            imessage.send(handle,`Happy birthday ${elem["firstName"]}, have an amazing ${age+1}th`)
+        const mins = Date.now() / 60000
+        col = client.db('birthday').collection('friends')
+        users = await col.find().toArray()
+        bday = []
+        users.forEach(elem => {
+          date = (Date.now() - elem["birthday"]) / 31557600000
+          if (date - Math.floor(date) > 0 && date - Math.floor(date) < 0.0027) {
+            console.log(`today is ${elem["firstName"]}'s birthday`)
+            twilio.messages.create({
+              body: `BIRTHDAY ALERT: today (${new Date(Date.now()).toDateString()}) is ${elem["firstName"]}  ${elem["lastName"]}'s birthday.`,
+              from: "+16106242053",
+              to: "+17327998071"
+            }).then(message => {
+              console.log(message.status)
+            }).catch(err => console.log(err))
             bday.push(elem)
-          })
-        }
-      })
-      return res.status(200).json({
-          'success':true,
-          'message':'Birthday messages were sent',
-          'body':bday
-      })
+          }
+        })
       } catch (err) {
-          return res.status(500).json({
-              'success':false,
-              'message':err.message
-          })
+        console.log(err)
       }
-  })
-  app.listen(port, () => {
-    console.log(`Server address: http://localhost:${port}`)
-  })
-  }).catch(
-    error => console.log(error)
-  )
+    })
+})
