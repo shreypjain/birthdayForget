@@ -2,6 +2,7 @@ const Client = require("mongodb").MongoClient
 const Cron = require('cron').CronJob
 const express = require('express')
 const http = require('http')
+const bodyParser = require('body-parser')
 require('dotenv').config();
 const twilio = require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
 
@@ -49,9 +50,44 @@ const getBirthdays = (req, res) => {
     })
 }
 
+const createBirthday = (req, res) => {
+  try {
+    const { firstName, lastName, date } = req.body;
+
+    Client.connect(process.env.DB_CREDS, {
+      useUnifiedTopology: true
+    }).then(async client => {
+      console.log('Connected to the db')
+
+      const birthday = new Date(date).getTime()
+
+      const col = client.db('birthday').collection('friends')
+      const insertedUser = await col.insertOne({
+        firstName,
+        lastName,
+        birthday,
+      })
+
+      return res.status(200).json({
+        operation: insertedUser.result,
+        success: true
+      })
+    })
+  } catch (e) {
+    console.log(e)
+    return res.status(500).json({
+      success: false,
+      message: e.message
+    })
+  }
+}
+
 const app = express()
 
+app.use(bodyParser.json())
+
 app.get('/', getBirthdays)
+app.post('/', createBirthday)
 
 server = http.createServer(app)
 server.listen(process.env.PORT)
