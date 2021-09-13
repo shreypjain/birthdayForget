@@ -19,7 +19,7 @@ const getBirthdays = (req, res) => {
         bday = []
         users.forEach(elem => {
           date = (Date.now() - elem["birthday"]) / 31557600000
-          if (date - Math.floor(date) > 0 && date - Math.floor(date) < 0.0027) {
+          if (date - Math.floor(date) > 0 && date - Math.floor(date) < 0.00273972602) {
             console.log(`today is ${elem["firstName"]}'s birthday`)
             twilio.messages.create({
               body: `BIRTHDAY ALERT: today (${new Date(Date.now()).toDateString()}) is ${elem["firstName"]} ${elem["lastName"]}'s birthday.`,
